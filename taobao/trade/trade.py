@@ -75,7 +75,8 @@ class TradeApi(Common):
                        type=DEFAULT_TYPE, ext_type=None, rate_status=None,
                        tag=None, page_no=None, page_size=None, use_has_next=None):
         """
-        查询卖家已卖出的交易数据
+        查询卖家已卖出的交易数据(根据创建时间)
+        参数：
         feilds: 需要返回的字段列表，逗号分隔
         start_created： 交易开始时间（三个月内）
         end_created： 交易结束时间
@@ -102,6 +103,20 @@ class TradeApi(Common):
 
         return self.post("taobao.trades.sold.get", data)
 
+    def trade_get(self, fields, tid):
+        """
+        获取单笔交易的部分信息
+        参数：
+        fields: 要返回的字段列表,逗号分隔
+        tid: 交易编号
+        """
+        data = {
+            "fields": fields,
+            "tid": tid
+        }
+
+        return self.post("taobao.trade.get", data)
+
     def trade_fullinfo_get(self, fields, tid):
         """
         获取单笔交易的详细信息
@@ -117,6 +132,41 @@ class TradeApi(Common):
         }
 
         return self.post("taobao.trade.fullinfo.get", data)
+
+    def trade_memo_add(self, tid, memo, flag=0):
+        """
+        对一笔交易添加备注
+        参数：
+        tid: 交易编号
+        memo: 交易备注,最大长度: 1000个字节
+        flag: 交易备注旗帜，可选值为：0(灰色), 1(红色), 2(黄色), 3(绿色), 4(蓝色), 5(粉红色)，默认值为0
+        """
+
+        data = {
+            "tid": tid,
+            "memo": memo,
+            "flag": flag
+        }
+
+        return self.post("taobao.trade.memo.add", data)
+
+    def trade_memo_update(self, tid, memo=None, flag=0, reset=False):
+        """
+        修改交易备注
+        参数：
+        tid: 交易编号
+        memo: 卖家交易备注。最大长度: 1000个字节
+        flag: 	卖家交易备注旗帜，可选值为：0(灰色), 1(红色), 2(黄色), 3(绿色), 4(蓝色), 5(粉红色)，默认值为0
+        reset: 是否对memo的值置空若为true，则不管传入的memo字段的值是否为空，都将会对已有的memo值清空，慎用；若用false，则会根据memo是否为空来修改memo的值：若memo为空则忽略对已有memo字段的修改，若memo非空，则使用新传入的memo覆盖已有的memo的值
+        """
+        data = {
+            "tid": tid,
+            "memo": memo,
+            "flag": flag,
+            "reset": reset
+        }
+
+        return self.post("taobao.trade.memo.update", data)
 
     def trade_amount_get(self, fields, tid):
         """

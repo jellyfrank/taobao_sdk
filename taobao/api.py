@@ -1,7 +1,9 @@
 
 from taobao.user import UserApi
-from taobao.trade import  TradeApi
+from taobao.trade import TradeApi
 from taobao.comm import Common
+import requests
+
 
 class TaoBao(object):
     """淘宝SDK"""
@@ -29,5 +31,6 @@ class TaoBao(object):
             else:
                 self._url = "http://gw.api.taobao.com/router/rest"
 
+    comm = Common()
     userapi = UserApi()
     tradeapi = TradeApi()

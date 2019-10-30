@@ -115,7 +115,6 @@ class Common(object):
 
             response = requests.post(
                 self._url, data=data, headers=headers).json()
-            # print(response)
             # return response
             return self._parse_comm_response(method, response)
         except Exception as err:
