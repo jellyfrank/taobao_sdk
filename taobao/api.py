@@ -1,6 +1,7 @@
 
 from taobao.user import UserApi
 from taobao.trade import TradeApi
+from taobao.cainiao import CaiNiaoApi
 from taobao.comm import Common
 import requests
 
@@ -34,3 +35,4 @@ class TaoBao(object):
     comm = Common()
     userapi = UserApi()
     tradeapi = TradeApi()
+    cainiao = CaiNiaoApi()

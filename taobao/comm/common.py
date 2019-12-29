@@ -37,7 +37,7 @@ class Common(object):
             keys = sorted([key for key, val in data.items() if not (
                 key == "sign" or isinstance(val, bytes))])
             # 拼接字符串
-            strs = "".join(f"{key}{data[key]}" for key in keys)
+            strs = "".join(f"{key}{data[key]}" for key in keys if data[key])
             if type == "md5":
                 return md5(f"{self._secret}{strs}{self._secret}".encode("utf-8")).hexdigest().upper()
             else:
@@ -81,7 +81,7 @@ class Common(object):
         公共响应
         data: 淘宝返回的结果
         """
-
+        
         if "taobao." in method:
             method = method.split("taobao.")[1].replace(".", "_")
 
